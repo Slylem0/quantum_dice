@@ -1,0 +1,19 @@
+[project]
+name = "quantum-dice"
+version = "0.1.0"
+description = "Certified randomness from a Bell test (Qollab x IonQ Hackathon 2026)"
+requires-python = ">=3.11"
+dependencies = [
+    "qiskit>=2.5.2,<3.0.0",  # same constraint as the Qollab runtime
+    "numpy",
+]
+
+[dependency-groups]
+dev = ["pytest"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

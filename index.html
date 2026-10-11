@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quantum Dice · aleatoriedad certificada por física</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='5' width='22' height='22' rx='5' fill='%23ff7a1a'/%3E%3Ccircle cx='12' cy='12' r='2.4' fill='%23fff'/%3E%3Ccircle cx='20' cy='20' r='2.4' fill='%23fff'/%3E%3Ccircle cx='20' cy='12' r='2.4' fill='%23fff'/%3E%3Ccircle cx='12' cy='20' r='2.4' fill='%23fff'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="main.css" />
+
+  <!-- three.js por import map (CDN). Portable a Qollab igual que el otro proyecto. -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div id="loader">
+    <div class="loader__orb"></div>
+    <p class="loader__text">Preparando el dado cuántico…</p>
+  </div>
+
+  <div id="app">
+    <div id="scene-container"></div>
+
+    <!-- Panel izquierdo: control + explicación -->
+    <aside id="control-panel" class="panel">
+      <header class="panel__header">
+        <h1 class="brand">Quantum&nbsp;Dice</h1>
+        <p class="brand__sub">Aleatoriedad que <b>nadie puede amañar</b>, certificada por una violación de Bell</p>
+      </header>
+
+      <section class="panel__section">
+        <label class="field">
+          <span class="field__label">Tiradas (shots)</span>
+          <div class="field__row">
+            <input id="shots" type="range" min="100" max="20000" step="100" value="2000" />
+            <span id="shots-value" class="field__value">2000</span>
+          </div>
+        </label>
+        <label class="field" id="noise-field">
+          <span class="field__label">Ruido del canal (solo demo local)</span>
+          <div class="field__row">
+            <input id="noise" type="range" min="0" max="1" step="0.05" value="0" />
+            <span id="noise-value" class="field__value">0.00</span>
+          </div>
+        </label>
+      </section>
+
+      <section class="panel__section panel__section--run">
+        <button id="roll-btn" class="btn btn--primary">🎲 Tirar el dado</button>
+        <span id="run-status" class="run-status"></span>
+      </section>
+
+      <section class="panel__section">
+        <div class="explainer">
+          <p class="explainer__title">¿Qué estoy viendo?</p>
+          <div class="explainer__body">
+            Dos partículas entrelazadas se miden por separado. Si sus
+            resultados están <b>más correlacionados de lo que permite cualquier
+            teoría clásica</b> (el valor <b>S &gt; 2</b>), la física garantiza que
+            el resultado <b>no estaba decidido de antemano</b>: es aleatoriedad
+            genuina. De esa violación extraemos bits certificados.
+          </div>
+        </div>
+      </section>
+
+      <footer class="panel__footer">
+        <span id="backend-badge" class="badge">backend: —</span>
+        <span class="badge badge--muted">Qollab × IonQ</span>
+      </footer>
+    </aside>
+
+    <!-- Panel derecho: certificado + resultados -->
+    <aside id="results-panel" class="panel panel--right">
+      <header class="panel__header">
+        <h2 class="panel__title">Certificado de aleatoriedad</h2>
+      </header>
+
+      <!-- Medidor de S -->
+      <div class="meter">
+        <div class="meter__scale">
+          <div class="meter__fill" id="meter-fill"></div>
+          <div class="meter__mark meter__mark--classical" style="left:70.7%"><span>2.0 clásico</span></div>
+          <div class="meter__mark meter__mark--tsirelson" style="left:100%"><span>2.83 cuántico</span></div>
+        </div>
+        <div class="meter__readout">
+          <span class="meter__label">S =</span>
+          <span id="s-value" class="meter__value">—</span>
+          <span id="s-ci" class="meter__ci"></span>
+        </div>
+        <div id="verdict" class="verdict"></div>
+      </div>
+
+      <div id="results" class="results">
+        <p class="results__empty">Pulsa “Tirar el dado” para generar aleatoriedad certificada.</p>
+      </div>
+    </aside>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
